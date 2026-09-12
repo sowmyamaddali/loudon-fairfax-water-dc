@@ -1,3 +1,4 @@
+# -----------------------------------------------------------------------------
 # Section 2: ICPRB Washington Metropolitian Area Water Supply
 # Study appendices (Fairfax Water & loudoun Water production data)
 
@@ -48,6 +49,7 @@ cat(text_2015[[4]])
 
 # Above section confirmed what we need to see in the final output CSV
 # -----------------------------------------------------------------------------
+
 # Storing the viewed data in CSV
 
 library(stringr)
@@ -105,6 +107,65 @@ nrow(icprb_monthly_production)  # should be 216
 write.csv(
   icprb_monthly_production,
   "data/raw/icprb/icprb_2015study_monthly_production_2005_2013.csv",
+  row.names = FALSE
+)
+
+# -----------------------------------------------------------------------------
+
+# For the year 2020
+text_2020 <- pdf_text("data/raw/icprb/icprb_2020_appendix.pdf")
+length(text_2020)
+
+production_pages_2020 <- grep("Ave. annual production", text_2020)
+print(production_pages_2020)
+
+loudoun_pages_2020 <- grep("Loudoun Water", text_2020)
+print(loudoun_pages_2020)
+
+parse_monthly_production_v2 <- function(page_text, utility_name) {
+  
+  lines <- str_split(page_text, "\n")[[1]]
+  
+  months <- c("January","February","March","April","May","June",
+              "July","August","September","October","November","December")
+  
+  # Find the real header line: must contain 5+ year-like numbers (title line only has 2)
+  year_counts <- str_count(lines, "20\\d{2}")
+  header_line <- lines[which(year_counts >= 5)][1]
+  years <- as.numeric(str_extract_all(header_line, "20\\d{2}")[[1]])
+  
+  avg_start <- grep("Monthly ave\\.", lines)
+  peak_start <- grep("Peak 1-day", lines)
+  
+  avg_lines <- lines[avg_start:(peak_start - 1)]
+  month_lines <- avg_lines[str_trim(str_extract(avg_lines, "^\\s*[A-Za-z]+")) %in% months]
+  
+  parsed <- lapply(month_lines, function(l) {
+    month <- str_trim(str_extract(l, "^\\s*[A-Za-z]+"))
+    nums <- as.numeric(str_extract_all(l, "\\d+\\.?\\d*")[[1]])
+    data.frame(
+      utility = utility_name,
+      month = month,
+      year = years,
+      production_mgd = nums[1:length(years)]
+    )
+  })
+  
+  do.call(rbind, parsed)
+}
+
+fairfax_monthly_2020 <- parse_monthly_production_v2(text_2020[[16]], "Fairfax Water")
+loudoun_monthly_2020 <- parse_monthly_production_v2(text_2020[[19]], "Loudoun Water (Total Use)")
+
+icprb_2020_monthly <- rbind(fairfax_monthly_2020, loudoun_monthly_2020)
+
+table(icprb_2020_monthly$utility, icprb_2020_monthly$month)
+nrow(icprb_2020_monthly)
+
+# Save the dataset
+write.csv(
+  icprb_2020_monthly,
+  "data/raw/icprb/icprb_2020study_monthly_production_2010_2018.csv",
   row.names = FALSE
 )
 
