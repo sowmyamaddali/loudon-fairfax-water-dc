@@ -27,3 +27,20 @@
   tables under one series, doubling row counts (18 rows/month/utility 
   instead of 9) and silently mislabeling peak data as average data
   
+
+
+## 2026-09-12 - ICPRB overlap validation and utility label standardization
+- Decision: Concatenate 2015 study (2005-2009) with 2020 study (2010-2018) 
+  into a single continuous series; relabel "Loudoun Water (Purchased)" and 
+  "Loudoun Water (Total Use)" both as "Loudoun Water"
+- Reason: Verified all 48 overlapping Fairfax Water months (2010-2013) 
+  matched exactly between studies (no revisions). Verified all 48 
+  overlapping Loudoun months matched exactly between "Purchased" (2015 
+  study) and "Total Use" (2020 study) labels, confirming Loudoun had no 
+  meaningful self-supply before Trap Rock WTF came online (Sept 2018) — 
+  so the two definitions are equivalent for 2005-2018 and safe to treat 
+  as one continuous "Loudoun Water" series
+- Caveat: Post-2018 data (once acquired) will need separate handling, since 
+  Loudoun's own Trap Rock production breaks the purchased=total equivalence
+  
+
