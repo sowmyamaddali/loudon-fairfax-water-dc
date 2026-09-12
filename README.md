@@ -11,7 +11,7 @@ attributing them to data centers by default.
 
 Inspired by CNN reporting on data centers' contribution to atmospheric heat
 release, this project applies similar before/after empirical approach to water
-consumption.[Article](https://www.cnn.com/2026/03/30/climate/data-centers-are-having-an-underrported)
+consumption. [Article](https://www.cnn.com/2026/03/30/climate/data-centers-are-having-an-underrported)
 
 
 ## Research Questions
@@ -53,16 +53,24 @@ renv::restore()          # installs exact package versions from renv.lock
 ```
 
 
-## Data Sources (Subject to change as the project develops)
-See `project-docs/data-sources.md` for full log.
-Planned sources include:
-- USGS Water Use Data (County-level, 5-year estimates)
-- Loudon County Service Authority annual water reports
-- Fairfax Water annual reports
-- U.S. Census/ACS population data
-- U.S. Drought Monitor/SPI drought index
+## Data Sources
+Full log in `project-docs/data-sources.md`. Currently acquired:
+- **ICPRB WMA Water Supply Study** (2015 & 2020 editions) — monthly 
+  utility-level production data for Fairfax Water and Loudoun Water, 
+  2005–2018, extracted from PDF appendices and validated across the two 
+  studies' overlapping years
+- **USGS County Water-Use Data (2015)** — population-served and per-capita 
+  delivery fields only; withdrawal totals found unreliable for these two 
+  counties due to multi-jurisdictional utility attribution (see 
+  `project-docs/decisions.md`)
 
+Still needed: USGS county data for 2000/2005/2010/2020; Census/ACS 
+population data for confounder analysis; drought index data.
 
 ## Status
-Environment setup complete (renv initialized, core packages installed).
-Data acquisition in-progress
+- Environment setup complete (renv initialized)
+- Fairfax Water and Loudoun Water monthly production data (2005–2018) 
+  extracted, cross-validated, and combined into 
+  `data/processed/icprb_monthly_production_2005_2018.csv`
+- Next: pull confounder data (population, drought), then move to analysis
+
