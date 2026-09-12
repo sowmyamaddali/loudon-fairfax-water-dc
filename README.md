@@ -22,6 +22,7 @@ significant confounders?
 
 
 ## Repo Structure (Subject to change as the project develops)
+```
 loudoun-fairfax-water-dc/
 ├── README.md              # project overview, question, data sources, how to reproduce
 ├── data/
@@ -40,6 +41,7 @@ loudoun-fairfax-water-dc/
 |   └── decisions.md
 ├── .gitignore             # ignore large raw files if needed, .Rhistory, .Rproj.user
 └── your-project.Rproj
+```
 
 
 ## Setup
