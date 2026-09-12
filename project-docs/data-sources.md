@@ -8,7 +8,7 @@
 - File used: usco2015v2.0.csv ("All Data CSV")
 - Date retrieved: 2026-09-12
 - Retrieval method: Manual download (readNWISuse() non-functional; 
-  read_wateruse() replacement only on dataRetrieval dev branch — see 
+  read_wateruse() replacement only on dataRetrieval dev branch -- see 
   decisions.md, 2026-09-12 entry on manual download)
 - Coverage: County level, all U.S. counties, year 2015; filtered to Loudoun 
   County (FIPS 51107) and Fairfax County (FIPS 51059)
@@ -16,7 +16,7 @@
   for population fields; confirmed via attached FGDC metadata XML
 - Known caveat: Public-supply withdrawal fields (PS-Wtotl etc.) are 
   unreliable for Fairfax/Loudoun due to multi-jurisdictional utility 
-  attribution issues — see decisions.md. Population-served and delivery 
+  attribution issues -- see decisions.md. Population-served and delivery 
   fields (PS-TOPop, DO-PSDel, DO-PSPCp) appear reliable.
 - Still needed: equivalent files for 2000, 2005, 2010, 2020 for the 
   before/after comparison
