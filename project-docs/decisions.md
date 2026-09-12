@@ -1,4 +1,4 @@
-## 2026-09-12 — USGS county water-use withdrawal fields unreliable for Fairfax/Loudoun
+## 2026-09-12 - USGS county water-use withdrawal fields unreliable for Fairfax/Loudoun
 - Decision: Do not use USGS county-level `PS-Wtotl` (public supply total withdrawal) 
   or related withdrawal fields as ground truth for Fairfax and Loudoun County
 - Reason: Internal inconsistency found in the 2015 data -- Fairfax County's 
@@ -19,4 +19,11 @@
   delivery fields (`PS-TOPop`, `DO-PSDel`, `DO-PSPCp`), which appear 
   internally consistent.
   
+  
+## 2026-09-12 - ICPRB PDF parsing: average vs. peak production tables
+- Decision: Restrict monthly production extraction to lines between 
+  "Monthly ave. production" and "Peak 1-day production" headers
+- Reason: Initial regex-based extraction captured both average and peak 
+  tables under one series, doubling row counts (18 rows/month/utility 
+  instead of 9) and silently mislabeling peak data as average data
   

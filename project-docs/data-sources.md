@@ -22,3 +22,24 @@
   before/after comparison
   
   
+## ICPRB Washington Metropolitan Area Water Supply Study (2015 edition)
+- Source: Interstate Commission on the Potomac River Basin (ICPRB)
+- URL: https://www.potomacriver.org/wp-content/uploads/2015/08/ICP15-04b_Ahmed.pdf
+- Date retrieved: 2026-09-12
+- Coverage: Monthly average production (MGD), 2005–2013, Fairfax Water 
+  (retail + wholesale, includes water sold to Loudoun Water) and Loudoun 
+  Water (Purchased, i.e. water bought from Fairfax Water)
+- Extraction method: PDF text parsed with `pdftools`/`stringr` in 
+  `01_download_data.R`; parsing isolates rows between "Monthly ave. 
+  production" and "Peak 1-day production" headers to avoid duplicating 
+  peak-production data as average-production data (see decisions.md)
+- Notes: This table reports actual utility-level production, avoiding the 
+  county-attribution issue found in USGS county water-use data (see 
+  decisions.md, 2026-09-12 entry). "Loudoun Water (Purchased)" reflects 
+  water bought from Fairfax Water only, not Loudoun's own Goose Creek 
+  production — a separate, currently unlocated table would be needed for 
+  Loudoun's total production including self-supplied water.
+- Still needed: Peak 1-day production data (if useful later), and the 
+  2020 study appendix for more recent years (2014–2019/2020)
+  
+  
