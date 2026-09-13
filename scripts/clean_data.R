@@ -81,13 +81,61 @@ write.csv(
 )
 
 
+# ------------------------------------------------------------------------------
+# Combine ICPRB production, Census population, and USDM drought data
+# into one annual dataset for Loudoun and Fairfax County
+library(dplyr)
+
+# Aggregate ICPRB monthly production to annual
+icprb_annual <- icprb_combined %>%
+  group_by(utility, year) %>%
+  summarise(avg_production_mgd = mean(production_mgd),
+            .groups = "drop"
+            )
 
 
+# Prepare population data (it's already annual)
+population_annual <- population_by_year %>%
+  mutate(
+    county = case_when(
+      GEOID == "51059" ~ "Fairfax Water",
+      GEOID == "51107" ~ "Loudoun Water"
+    )
+  ) %>%
+  select(county, year = acs_end_year, population = estimate)
 
 
+# Aggregate weekly drought to annual
+drought_annual <- loudoun_fairfax_drought %>%
+  mutate(
+    county = case_when(
+      countyfips == 51059 ~ "Fairfax Water",
+      countyfips == 51107 ~ "Loudoun Water"
+    ),
+    in_drought = value %in% c(1, 2, 3, 4)
+  ) %>%
+  group_by(county, year) %>%
+  summarise(
+    pct_weeks_in_drought = mean(in_drought) * 100,
+    avg_drought_severity = mean(value[value != 9], na.rm = TRUE),
+    .groups = "drop"
+  )
 
 
+# Combine all three via full join on utility/county + year
+combined_annual <- icprb_annual %>%
+  rename(county = utility) %>%
+  full_join(population_annual, by = c("county", "year")) %>%
+  full_join(drought_annual, by = c("county", "year")) %>%
+  arrange(county, year)
+print(combined_annual, n = 38)
 
 
+# Write to CSV
+write.csv(
+  combined_annual,
+  "data/processed/combined_annual_loudoun_fairfax.csv",
+  row.names = FALSE
+)
 
 

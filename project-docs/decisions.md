@@ -44,3 +44,18 @@
   Loudoun's own Trap Rock production breaks the purchased=total equivalence
   
 
+## 2026-09-12 - Combined annual dataset construction
+- Decision: Aggregate monthly production to annual mean; use % of weeks in 
+  D1+ drought and mean drought severity (excluding "None" weeks) as annual 
+  drought summary metrics; full outer join across production, population, 
+  drought by county + year (2000-2018), preserving NA where a source 
+  doesn't cover that year rather than truncating to overlap
+- Reason: Sources have different coverage windows (production 2005-2018, 
+  population 2009-2018, drought 2000-2016); an inner join would silently 
+  drop years and understate the true observation window
+- Caveat: `avg_drought_severity` is undefined (NaN) in years/counties with 
+  zero non-"None" weeks, will show as NaN, not NA; needs handling before 
+  any modeling step
+
+
+
