@@ -42,4 +42,21 @@
 - Still needed: Peak 1-day production data (if useful later), and the 
   2020 study appendix for more recent years (2014–2019/2020)
   
+
+## Census ACS 5-Year Population Estimates (Loudoun & Fairfax County, VA)
+- Source: U.S. Census Bureau American Community Survey (ACS), via 
+  `tidycensus::get_acs()`
+- Variable: B01003_001 (Total Population)
+- Date retrieved: 2026-09-12
+- Coverage: County level, ACS 5-year estimates for end-years 2009-2018 
+  (each representing a rolling 5-year window, e.g. "2009" = 2005-2009 data)
+- Counties: Loudoun (FIPS 51107), Fairfax County (FIPS 51059) — note 
+  Fairfax County must be specified by FIPS code, not name, since "Fairfax" 
+  alone is ambiguous with the independent City of Fairfax
+- Notes: 2009 estimate has MOE = 0 (unusual, possibly a data quirk in 
+  that vintage); cross-validated against USGS 2015 county water-use 
+  population figures (TP-TotPop) — both sources agree closely for 2015 
+  (Fairfax: 1,142,004 ACS vs. 1,142,234 USGS; Loudoun: 351,129 ACS vs. 
+  375,629 USGS: some divergence for Loudoun worth noting)  
   
+
