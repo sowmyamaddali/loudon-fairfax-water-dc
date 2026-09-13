@@ -60,3 +60,31 @@
   375,629 USGS: some divergence for Loudoun worth noting)  
   
 
+## CDC/USDM County-Level Drought Data (2000-2016)
+- Source: U.S. Drought Monitor via CDC National Environmental Public Health 
+  Tracking Network
+- URL: https://data.cdc.gov/api/views/spsk-9jj6/rows.csv?accessType=DOWNLOAD
+- Date retrieved: 2026-09-12
+- Coverage: Weekly, county level, Loudoun (FIPS 51107) and Fairfax County 
+  (FIPS 51059), 2000-2016
+- Value encoding: 0-4 = D0 (Abnormally Dry) through D4 (Exceptional 
+  Drought); 9 = No drought conditions — confirmed via distribution (9 = 
+  1,240 of 1,774 weeks, ~70%; D0-D4 account for the rest, consistent with 
+  a non-drought-prone region with occasional real events) [URL](https://droughtmonitor.unl.edu/About/AbouttheData/DroughtClassification.aspx)
+- Known gap: dataset ends 2016; ICPRB production data extends to 2018 — 
+  2017-2018 drought data not yet sourced
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
