@@ -29,10 +29,10 @@ loudoun-fairfax-water-dc/
 │   ├── raw/               # untouched downloads (USGS, utility PDFs/CSVs) — never edit these
 │   └── processed/         # cleaned R output, ready for analysis
 ├── scripts/
-│   ├── 01_download_data.R
-│   ├── 02_clean_data.R
-│   ├── 03_analysis.R
-│   └── 04_maps.R
+│   ├── download_data.R
+│   ├── clean_data.R
+│   ├── analysis.R
+│   └── maps.R
 ├── output/
 │   ├── figures/
 │   └── tables/
