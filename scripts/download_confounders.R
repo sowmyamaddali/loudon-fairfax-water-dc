@@ -13,7 +13,7 @@ library(dplyr)
 # One-time setup: register for a free Census API key at
 # https://api.census.gov/data/key_signup.html
 census_api_key(
-  "90d1c6061dcf4f3e5b26e75116f70973c4378af6",
+  "",
   install = TRUE,
   overwrite = TRUE)
 
