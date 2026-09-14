@@ -31,14 +31,14 @@ loudoun-fairfax-water-dc/
 ├── scripts/
 │   ├── download_data.R
 │   ├── clean_data.R
-│   ├── analysis.R
-│   └── maps.R
+│   ├── visualize.R
 ├── output/
 │   ├── figures/
 │   └── tables/
 ├── project-docs/
 │   └── data-sources.md    # exact URLs, retrieval dates, county reports used
 |   └── decisions.md
+|   └── findings.md
 ├── .gitignore             # ignore large raw files if needed, .Rhistory, .Rproj.user
 └── your-project.Rproj
 ```

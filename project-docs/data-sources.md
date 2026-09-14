@@ -75,7 +75,29 @@
   2017-2018 drought data not yet sourced
 
 
-
+## Dominion Energy Data Center Demand (MW), 2013-2022
+- Source: Dominion Energy, presented to PJM Load Analysis Subcommittee (LAS)
+- Title: "Dominion Energy Service Territory Data Center Forecasting"
+- Date of presentation: June 26, 2023
+- URL: https://pjm.com/-/media/committees-groups/subcommittees/las/2023/20230626/20230626-item-05---dominion-load-adjustment-method_results.ashx
+- Date retrieved: 2026-09-12
+- Coverage: Annual historical demand (MW), Dominion Energy service 
+  territory only, 2013-2022 ("A" = actual, per source labeling)
+- Values (MW): 2013=462, 2014=532, 2015=636, 2016=753, 2017=931, 
+  2018=1113, 2019=1421, 2020=1808, 2021=2302, 2022=2767
+- Scope caveat: This is Dominion Energy's entire service territory, 
+  not Loudoun County specifically or Fairfax Water's/Loudoun Water's 
+  exact service boundaries. Per the same source, "Loudoun County is 
+  over 80% of Dominion Energy's data center demand", so this is a 
+  strong proxy for Loudoun's data center growth, but not an exact 
+  county-level or utility-boundary match. Treat as regional indicator, 
+  not precise attribution.
+- Note: A second chart in the same source shows "New Connect Ultimate 
+  Capacity" (a different, larger-magnitude metric: 67, 341, 489, 744, 
+  1123, 1588... for the same years) and this is a different measure 
+  (new connections' eventual max capacity, not actual metered demand) 
+  and should not be confused with or substituted for the demand series 
+  above.
 
 
 

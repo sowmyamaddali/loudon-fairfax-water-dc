@@ -126,10 +126,24 @@ write.csv(
   row.names = FALSE
 )
 
+# ------------------------------------------------------------------------------
+# Dominion Energy data center demand (MW), Dominion Energy service territory
+# Source: Dominion Energy, "Dominion Energy Service Territory Data Center
+# Forecasting," presented by PJM Load Analysis Subcommittee, June 26, 2023
+# URL: provided in `data-sources.md`
+# Retrieved: 2026-09-13
+# Caveat: Dominion service territory, not exact Loudoun/Fairfax Water
+# boundaries; per source, Loudoun County => 80% of this demand
 
+dc_demand <- data.frame(
+  year = 2013:2018,
+  dc_demand_mw = c(462, 532, 636, 753, 931, 1113)
+)
 
+combined_annual <- combined_annual %>%
+  left_join(dc_demand, by = "year")
 
-
+# table(combined_annual)
 
 
 

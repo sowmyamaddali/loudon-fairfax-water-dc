@@ -21,7 +21,7 @@ or is this coincidence given only 14 data points? Worth a formal correlation/reg
 alignment alone.
 
 
-## 2026-09-12 -  Regression: production ~ population + drought (n=8 per utility)
+## 2026-09-13 -  Regression: production ~ population + drought (n=8 per utility)
 **Loudoun Water:** R^2=0.88, F-test p=0.0047 (significant).
 Population (p=0.0017) and drought % weeks (p=0.030) both individually significant.
 Both structural growth (population) and weather varaibility (drought) show real,
@@ -43,3 +43,44 @@ only about population and drought as confounders.
 further possible candidates: multi-jurisdictional wholesale complexity, commercial/
 industrial demand (which could include data centers), or data quality in the production
 reporting itself.
+
+
+## 2026-09-13 - Data Center Demand (Dominion) Regression, 2013-2018 (n=6)
+**Correlations:** population and dc_demand_nw are highly collinear (Fairfax r=0.91, Loudoun r=0.98)
+it is expected since both grew steadily over this window. Therefore cannot include both in one model.
+
+**Bivariate regressions (n=6, 4 df):**
+- Fairfax ~ dc_demand_mw: R^2=0.27, p=0.29 (not significant)
+- Fairfax ~ population: R^2=0.52, p=0.10 (not significant, but closer)
+- Loudoun ~ dc_demand_mw: R^2=0.31, p=0.25 (not significant)
+- Loudoun ~ population: R^2=0.42, p=0.16 (not significant)
+
+**Interpretation:** At n=6, no predictor reaches conventional significance. Population
+shows somewhat higher R^2 than dc_demand_mw for both utilities, but this is not a statistically
+defensible distinction given the sample size and the two variables' near perfect collinearity.
+Cannot conclude data center demand explains production better (or worse) than population growth with
+this data.
+
+**Implications:** This is a genuine limitation to report honestly, not a null result to hide.
+Two paths forward:
+1. Acquire longer/more granular data
+2. Reframe the claims around this limitation explicitly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

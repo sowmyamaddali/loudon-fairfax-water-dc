@@ -27,57 +27,6 @@ ggsave("output/figures/production_trend_drought.png",
        dpi = 300)
 
 # --------------------------------------------------------------------------------
-# Prepare modeling data per utility, dropping NA rows for regression
-fairfax_model_data <- combined_annual %>%
-  filter(county == "Fairfax Water",
-         !is.na(avg_production_mgd),
-         !is.na(population))
-
-loudoun_model_data <- combined_annual %>%
-  filter(county == "Loudoun Water",
-         !is.na(avg_production_mgd),
-         !is.na(population))
-
-nrow(fairfax_model_data)
-nrow(loudoun_model_data)
-
-
-# Check collinearity between year and population
-cor(fairfax_model_data$year, fairfax_model_data$population)
-cor(loudoun_model_data$year, loudoun_model_data$population)
-# Year & population have near perfect year/population collinearity
-# Use population and drop year
-
-
-# Correlation check
-cor(fairfax_model_data$avg_production_mgd, fairfax_model_data$population)
-cor(loudoun_model_data$avg_production_mgd, loudoun_model_data$population)
-
-cor(fairfax_model_data$avg_production_mgd, 
-    fairfax_model_data$pct_weeks_in_drought,
-    use = "complete.obs")
-cor(loudoun_model_data$avg_production_mgd, 
-    loudoun_model_data$pct_weeks_in_drought,
-    use = "complete.obs")
-
-
-# Regression: function of population + drought
-fairfax_model <- lm(
-  avg_production_mgd ~ population + pct_weeks_in_drought,
-  data = fairfax_model_data
-)
-
-loudoun_model <- lm(
-  avg_production_mgd ~ population + pct_weeks_in_drought,
-  data = loudoun_model_data
-)
-
-summary(fairfax_model)
-summary(loudoun_model)
-
-nobs(fairfax_model)
-nobs(loudoun_model)
-
 
 
 
