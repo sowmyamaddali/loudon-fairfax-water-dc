@@ -50,3 +50,4 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+data/raw/drought/usdm_county_2000_2016.csv
