@@ -19,3 +19,27 @@ visual correlation, no statistical test yet), not a casual claim.
 or is this coincidence given only 14 data points? Worth a formal correlation/regression check
 (production ~ drought + population + year) rather than relying on visual
 alignment alone.
+
+
+## 2026-09-12 -  Regression: production ~ population + drought (n=8 per utility)
+**Loudoun Water:** R^2=0.88, F-test p=0.0047 (significant).
+Population (p=0.0017) and drought % weeks (p=0.030) both individually significant.
+Both structural growth (population) and weather varaibility (drought) show real,
+independent associations with population.
+
+**Fairfax Water:** R^2=0.45, F-test p=0.224 (Not significant).
+Neither population (p=0.206) nor drought (p=0.168) individually significant. No
+statistically defensible relationship detected. Fairfax's volatility remains unexplained
+by these two variables.
+
+**Caveats:** n=8 per model (2 years lost to missing drought data 2017-2018).
+Extremely low power so treating it as exploratory, not confirmatory. Year and 
+population are highly collinear (r=0.96-0.9998), so year was excluded; this may
+absorb some of what would otherwise show as a population effect or vice-versa. No
+data center variable included yet. These results say nothing about DC attribution directly,
+only about population and drought as confounders.
+
+**Implication:** Fairfax's unexplained volatility is itself worth investigating
+further possible candidates: multi-jurisdictional wholesale complexity, commercial/
+industrial demand (which could include data centers), or data quality in the production
+reporting itself.
