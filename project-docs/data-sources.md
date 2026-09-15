@@ -100,7 +100,26 @@
   above.
 
 
-
+## ICPRB Washington Metropolitan Area Water Supply Study (2025 edition)
+- Source: Interstate Commission on the Potomac River Basin (ICPRB)
+- Title: "2025 Washington Metropolitan Area Water Supply Study: Demand and 
+  Resource Availability Forecast for the Year 2050," ICPRB Report No. ICP-596
+- Authors: S.N. Ahmed, K. Bencala, S. Nummer, C.L. Schultz, A. Seck
+- Published: December 2025
+- URL: https://www.potomacriver.org/wp-content/uploads/2025/12/2025_WMA_Water_Supply_Study_ICPRB_Dec-2025-export.pdf
+- Local copy: data/raw/icprb/icprb_2025study_full_report.pdf
+- Date retrieved: 2026-09-12
+- Coverage: Monthly average production/use (MGD), 2015-2023, Fairfax Water 
+  (Table A.1-7) and Loudoun Water (Table A.1-10, Total Use)
+- Validation: All 96 overlapping months (2015-2018) matched exactly against 
+  the 2020 study extract (see decisions.md), no revisions found; safely 
+  extended combined dataset to cover 2005-2023
+- Significant additional content: This study is the first ICPRB edition to 
+  explicitly model data center water consumption (Section 6.2, Appendix A.3). 
+  Table A.3-1 provides FORECASTED (not historical) upstream consumptive use 
+  by data centers, 2025-2050, under Low/Medium/High scenarios (Medium: 
+  0.1 MGD in 2025 rising to 4.7 MGD by 2050, ~4% of total upstream 
+  consumptive use).
 
 
 

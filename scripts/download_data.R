@@ -1,4 +1,37 @@
 # -----------------------------------------------------------------------------
+# Section 1: USGS Data
+# Note:
+# USGS's readNWISuse() and dataRetrieval's newer water-use functions were non-functional
+# as of September 2026.
+# Data was manually downloaded from ScienceBase:https://www.sciencebase.gov/catalog/item/get/5af3311be4b0da30c1b245d8
+# File: usco2015.csv ("All Data CSV")
+
+# import libraries
+library(dplyr)
+
+# Verify the file is placed in the right directory
+stopifnot(file.exists("data/raw/usco2015v2.0.csv"))
+
+water_use_2015 <- read.csv(
+  "data/raw/usco2015v2.0.csv",
+  skip = 1 # the header row is being read as row 1 if skip = 1 is not present
+)
+
+str(water_use_2015)
+
+# Filter for Loudoun & Fairfax counties
+loudoun_fairfax_2015 <- water_use_2015 %>%
+  filter(FIPS %in% c(51107, 51059))
+
+loudoun_fairfax_2015 %>%
+  select(COUNTY, FIPS, TP.TotPop, PS.Wtotl, IN.Wtotl)
+
+# Clarification on the units
+# Checking every field for Fairfax County
+water_use_2015 %>% filter(FIPS == 51059) %>% t()
+
+
+# -----------------------------------------------------------------------------
 # Section 2: ICPRB Washington Metropolitian Area Water Supply
 # Study appendices (Fairfax Water & loudoun Water production data)
 
@@ -86,7 +119,6 @@ parse_monthly_production <- function(page_text, utility_name) {
   do.call(rbind, parsed)
 }
 
-
 fairfax_monthly <- parse_monthly_production(text_2015[[1]], "Fairfax Water")
 loudoun_monthly <- parse_monthly_production(text_2015[[4]], "Loudoun Water (Purchased)")
 
@@ -170,33 +202,93 @@ write.csv(
 )
 
 # -----------------------------------------------------------------------------
-# Section 1: USGS Data
-# Note:
-# USGS's readNWISuse() and dataRetrieval's newer water-use functions were non-functional
-# as of September 2026.
-# Data was manually downloaded from ScienceBase:https://www.sciencebase.gov/catalog/item/get/5af3311be4b0da30c1b245d8
-# File: usco2015.csv ("All Data CSV")
 
-# import libraries
-library(dplyr)
-
-# Verify the file is placed in the right directory
-stopifnot(file.exists("data/raw/usco2015v2.0.csv"))
-
-water_use_2015 <- read.csv(
-  "data/raw/usco2015v2.0.csv",
-  skip = 1 # the header row is being read as row 1 if skip = 1 is not present
+# Downloading new data for 2025
+download.file(
+  "https://www.potomacriver.org/wp-content/uploads/2025/12/2025_WMA_Water_Supply_Study_ICPRB_Dec-2025-export.pdf",
+  destfile = "data/raw/icprb/icprb_2025study_full_report.pdf",
+  mode = "wb"
 )
 
-str(water_use_2015)
+text_2025study <- pdf_text("data/raw/icprb/icprb_2025study_full_report.pdf")
+length(text_2025study)
 
-# Filter for Loudoun & Fairfax counties
-loudoun_fairfax_2015 <- water_use_2015 %>%
-  filter(FIPS %in% c(51107, 51059))
+# Find production tables and the data center consumptive use table
+production_pages_2025 <- grep(
+  "Ave. annual production|Ave. annual use", 
+  text_2025study
+)
 
-loudoun_fairfax_2015 %>%
-  select(COUNTY, FIPS, TP.TotPop, PS.Wtotl, IN.Wtotl)
+dc_pages_2025 <- grep(
+  "Forecasted Upstream Consumptive Use by Data Centers",
+  text_2025study
+)
 
-# Clarification on the units
-# Checking every field for Fairfax County
-water_use_2015 %>% filter(FIPS == 51059) %>% t()
+print(production_pages_2025)
+print(dc_pages_2025)
+
+fairfax_monthly_2025 <- parse_monthly_production_v2(
+  text_2025study[[172]],
+  "Fairfax Water"
+)
+
+loudoun_monthly_2025 <- parse_monthly_production_v2(
+  text_2025study[[175]],
+  "Loudoun Water"
+)
+
+icprb_2025_monthly <- rbind(fairfax_monthly_2025, loudoun_monthly_2025)
+
+table(icprb_2025_monthly$utility, icprb_2025_monthly$month)
+nrow(icprb_2025_monthly) # result: 216
+
+# Overlap Check
+overlap_check <- icprb_2025_monthly %>%
+  filter(year %in% 2015:2018) %>%
+  rename(production_2025study = production_mgd) %>%
+  inner_join(
+    icprb_combined %>% filter(year %in% 2015:2018) %>% rename(production_prior = production_mgd),
+    by = c("utility", "month", "year")
+  ) %>%
+  mutate(diff = production_2025study - production_prior)
+
+table(overlap_check$diff == 0)
+overlap_check %>% filter(diff != 0)
+
+
+# All 96 overlapping rows matched exactly. Safe to extend the combined dataset
+# with the new 2019-2023 years data
+icprb_combined_extended <- bind_rows(
+  icprb_combined, # existing 2005-2018 data
+  icprb_2025_monthly %>% filter(year %in% 2019:2023) # new years only
+) %>%
+  arrange(utility, year, match(month, month.name))
+
+table(icprb_combined_extended$utility, icprb_combined_extended$year)
+
+# Write to CSV
+write.csv(
+  icprb_combined_extended,
+  "data/processed/icprb_monthly_production_2005_2023.csv",
+  row.names = FALSE
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
