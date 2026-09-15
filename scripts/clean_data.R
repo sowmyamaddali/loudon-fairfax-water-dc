@@ -138,4 +138,74 @@ write.csv(
   row.names = FALSE
 )
 
+# ------------------------------------------------------------------------------
+# Rebuild with extended sources
+icprb_annual_extended <- icprb_combined_extended %>%
+  group_by(utility, year) %>%
+  summarise(avg_production_mgd = mean(production_mgd),
+            .groups = "drop")
+
+population_annual_extended <- population_by_year_all %>%
+  mutate(
+    county = case_when(
+      GEOID == "51059" ~ "Fairfax Water",
+      GEOID == "51107" ~ "Loudoun Water"
+    )
+  ) %>%
+  select(county, year = acs_end_year, population = estimate)
+
+# Extend dc_demand_mw from 2013:2022
+dc_demand <- data.frame(
+  year = 2013:2022,
+  dc_demand_mw = c(462, 532, 636, 753, 931, 1113, 1421, 1808, 2302, 2767)
+)
+
+combined_annual_extended <- icprb_annual_extended %>%
+  rename(county = utility) %>%
+  full_join(population_annual_extended, by = c("county", "year")) %>%
+  full_join(drought_annual, by = c("county", "year")) %>%
+  full_join(dc_demand, by = "year") %>%
+  arrange(county, year)
+
+print(combined_annual_extended, n=40)
+
+# Confirming the dc_demand - Fairfax
+fairfax_dc_extended <- combined_annual_extended %>%
+  filter(county == "Fairfax Water", !is.na(avg_production_mgd),
+         !is.na(population), !is.na(dc_demand_mw))
+
+# Confirming the dc_demand - Loudoun
+loudoun_dc_extended <- combined_annual_extended %>%
+  filter(county == "Loudoun Water", !is.na(avg_production_mgd),
+         !is.na(population), !is.na(dc_demand_mw))
+
+nrow(fairfax_dc_extended)
+nrow(loudoun_dc_extended)
+
+# Write to CSV
+write.csv(
+  combined_annual_extended,
+  "data/processed/combined_annual_loudoun_fairfax_extended.csv",
+  row.names = FALSE
+)
+
+# Re-check collinearity with the large sample
+cor(fairfax_dc_extended$population, fairfax_dc_extended$dc_demand_mw)
+cor(loudoun_dc_extended$population, loudoun_dc_extended$dc_demand_mw)
+
+fairfax_dc_model2 <- lm(avg_production_mgd ~ dc_demand_mw, data = fairfax_dc_extended)
+loudoun_dc_model2 <- lm(avg_production_mgd ~ dc_demand_mw, data = loudoun_dc_extended)
+
+summary(fairfax_dc_model2)
+summary(loudoun_dc_model2)
+
+
+
+
+
+
+
+
+
+
 

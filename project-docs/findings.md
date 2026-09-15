@@ -67,6 +67,39 @@ Two paths forward:
 2. Reframe the claims around this limitation explicitly
 
 
+## 2026-09-14 - Extended regression with n=10 (2013-2022), corrected
+
+**Fairfax Water ~ dc_demand_mw:** R^2=0.004, p=0.86 (no relationship)
+**Loudoun Water ~ dc_demand_mw:** R^2=0.806, p=0.0004 (strong, significant)
+**Loudoun Water ~ population:** R^2=0.806, p=0.0004 (strong, significant — 
+  essentially identical to dc_demand_mw model)
+
+**Interpretation:** Loudoun Water's production tracks both population and 
+Dominion's regional data center demand almost identically well (R^2 differs 
+by only 0.0002). Given r=0.93 collinearity between the two predictors over 
+this window, the regression cannot statistically distinguish which is the 
+"true" driver and they are near-perfect proxies for each other over 
+2013-2022. This is an honest limitation, not a null result: it means the 
+available data cannot separate "Loudoun grew because of data centers" from 
+"Loudoun grew because more people moved there" as competing explanations, 
+because both happened simultaneously and at similar rates.
+
+**Fairfax remains the interesting counterpoint:** its production is 
+essentially flat/unexplained by either variable, consistent with Dominion's 
+own statement that Loudoun accounts for >80% of their data center demand and 
+data centers are geographically concentrated away from where Fairfax draws 
+its growth story from.
+
+**Implication:** The strongest defensible claim is: "Loudoun 
+Water's rising production is strongly associated with both population 
+growth and data center demand growth, which are too collinear in this 
+period to separate statistically — this itself is a notable finding, since 
+it suggests data center growth and general regional growth in Loudoun have 
+moved in lockstep, rather than data centers being an isolated driver on 
+top of an otherwise stable population trend." Fairfax's lack of any 
+relationship to either variable is a genuine puzzle worth further 
+investigation (e.g., wholesale complexity, wastewater return flows, or a 
+variable not yet captured).
 
 
 
