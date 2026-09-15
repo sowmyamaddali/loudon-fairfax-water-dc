@@ -145,10 +145,35 @@ combined_annual <- combined_annual %>%
 
 # table(combined_annual)
 
+# ------------------------------------------------------------------------------
 
+# Extend population data to match Dominion's 2022 cutoff
+years_extended <- 2019:2022
 
+population_by_year_extended <- lapply(
+  years_extended, function(y) {
+    get_acs(
+      geography = "county",
+      variables = "B01003_001",
+      state = "VA",
+      county = c("107", "059"),
+      year = y,
+      survey = "acs5"
+    ) %>%
+      mutate(acs_end_year = y)
+  }
+) %>%
+  bind_rows()
 
+population_by_year_all <- bind_rows(
+  population_by_year, population_by_year_extended
+)
+population_by_year_all
 
-
-
+# Write to CSV
+write.csv(
+  population_by_year_all,
+  "data/raw/census/loudoun_fairfax_population_2009_2022.csv",
+  row.names = FALSE
+)
 

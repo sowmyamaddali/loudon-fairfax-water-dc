@@ -122,7 +122,16 @@
   consumptive use).
 
 
-
+## Census ACS 5-Year Population Estimates (Loudoun & Fairfax County, VA)
+- Source: U.S. Census Bureau American Community Survey (ACS), via 
+  `tidycensus::get_acs()`
+- Variable: B01003_001 (Total Population)
+- Date retrieved: 2026-09-12 (initial 2009-2018); extended 2026-09-14 
+  (2019-2022) to match Dominion Energy data center demand data's 2022 cutoff
+- Coverage: County level, ACS 5-year estimates for end-years 2009-2022
+- Counties: Loudoun (FIPS 51107), Fairfax County (FIPS 51059)
+- Notes: 2009 estimate has MOE = 0; cross-validated against USGS 2015 
+  county water-use population figures (see earlier entry)
 
 
 
