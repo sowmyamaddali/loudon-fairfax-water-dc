@@ -101,6 +101,27 @@ loudoun_pop_model <- lm(
 summary(fairfax_pop_model)
 summary(loudoun_pop_model)
 
+# --------------------------------------------------------------------------------
+# Full population + drought regression
+fairfax_full <- combined_annual_full %>%
+  filter(county == "Fairfax Water", !is.na(avg_production_mgd),
+         !is.na(population), !is.na(pct_weeks_in_drought))
+
+loudoun_full <- combined_annual_full %>%
+  filter(county == "Loudoun Water", !is.na(avg_production_mgd),
+         !is.na(population), !is.na(pct_weeks_in_drought))
+
+nrow(fairfax_full)
+nrow(loudoun_full)
+
+fairfax_model_full <- lm(avg_production_mgd ~ population + pct_weeks_in_drought, data = fairfax_full)
+loudoun_model_full <- lm(avg_production_mgd ~ population + pct_weeks_in_drought, data = loudoun_full)
+
+summary(fairfax_model_full)
+summary(loudoun_model_full)
+
+
+
 
 
 

@@ -177,3 +177,85 @@ write.csv(
   row.names = FALSE
 )
 
+# ------------------------------------------------------------------------------
+# Downloading supporting data between 2017 and 2023
+drought_2017_2023_url_loudoun <- "https://usdmdataservices.unl.edu/api/CountyStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=51107&startdate=1/1/2017&enddate=12/31/2023&statisticsType=1"
+drought_2017_2023_url_fairfax <- "https://usdmdataservices.unl.edu/api/CountyStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=51059&startdate=1/1/2017&enddate=12/31/2023&statisticsType=1"
+
+loudoun_new <- read.csv(drought_2017_2023_url_loudoun)
+fairfax_new <- read.csv(drought_2017_2023_url_fairfax)
+
+str(loudoun_new)
+head(loudoun_new)
+
+str(fairfax_new)
+head(fairfax_new)
+
+# Data formatting needs to be fixed in order to merge with existing data
+library(dplyr)
+library(lubridate)
+
+process_usdm <- function(df) {
+  df %>%
+    mutate(
+      year = as.integer(substr(MapDate, 1, 4)),
+      in_drought = D1 > 0,
+      # discrete area shares by exact category, area-weighted severity 0-4
+      severity = (D1-D2)*1+(D2-D3)*2+(D3-D4)*3+D4*4
+    ) %>%
+    group_by(year) %>%
+    summarise(
+      pct_weeks_in_drought = mean(in_drought)*100,
+      avg_drought_severity = mean(severity[in_drought])/100,
+      .groups = "drop"
+    )
+}
+
+loudoun_drought_2017_2023 <- process_usdm(loudoun_new) %>% mutate(county = "Loudoun Water")
+fairfax_drought_2017_2023 <- process_usdm(fairfax_new) %>% mutate(county = "Fairfax Water")
+
+drought_2017_2023 <- bind_rows(loudoun_drought_2017_2023, fairfax_drought_2017_2023)
+drought_2017_2023
+
+# Changing null values to NA from NaN
+drought_2017_2023 <- drought_2017_2023 %>%
+  mutate(
+    avg_drought_severity = ifelse(is.nan(avg_drought_severity),
+                                  NA, avg_drought_severity)
+  )
+
+# Merge with the existing 2000-2016 drought data
+drought_annual %>% filter(year == 2016)
+drought_2017_2023 %>% filter(year == 2016)
+  
+drought_2017_2023 <- drought_2017_2023 %>%
+  filter(year != 2016)
+
+# Combine: CDC (2000-2016) + USDM (2017-2023)
+drought_annual_extended <- bind_rows(drought_annual, drought_2017_2023)
+
+table(drought_annual_extended$county, drought_annual_extended$year)
+
+# Write to CSV
+write.csv(
+  drought_annual_extended,
+  "data/processed/drought_annual_loudoun_fairfax_2000_2023.csv",
+  row.names = FALSE
+)
+
+combined_annual_full <- icprb_annual_extended %>%
+  rename(county = utility) %>%
+  full_join(population_annual_extended, by = c("county", "year")) %>%
+  full_join(drought_annual_extended, by = c("county", "year")) %>%
+  full_join(dc_demand, by = "year") %>%
+  arrange(county, year)
+
+write.csv(
+  combined_annual_full,
+  "data/processed/combined_annual_loudoun_fairfax_full.csv",
+  row.names = FALSE
+)
+
+
+
+

@@ -102,10 +102,32 @@ investigation (e.g., wholesale complexity, wastewater return flows, or a
 variable not yet captured).
 
 
+## 2026-09-16 - Drought data 2017-2023 sourced from USDM API
+- **Decision:** Extend drought coverage via usdmdataservices.unl.edu 
+  API (percent-area format), harmonized to a comparable pct_weeks_in_drought 
+  and area-weighted severity metric
+- **Reason:** CDC dataset ends 2016; official USDM service has no such cutoff
+- **Caveat:** Methodology differs from CDC source (percent-area vs. single categorical code)
+  and metrics are conceptually aligned, not identically derived. Treat 2000-2016 
+  and 2017-2023 drought values as comparable but not perfectly consistent.
 
 
+## 2026-09-18 - Full regression, extended drought data (n=14)
 
+- Fairfax: R²=0.36, F p=0.085 (not significant). Population p=0.15, 
+  drought p=0.066 (marginal). Weak evidence for drought over population, 
+  neither confirmed.
 
+- Loudoun: R²=0.84, F p<0.0001. Population p<0.0001 (dominant), 
+  drought p=0.67 (not significant). With more data, drought's earlier 
+  apparent significance (n=8 test) disappears, population fully 
+  explains Loudoun's trend; drought does not add anything once 
+  population is controlled for.
+
+- Revision from earlier finding: the n=8 result showing drought as 
+  significant for Loudoun does not replicate at n=14. Population is 
+  the clear, robust driver for Loudoun. Fairfax remains largely 
+  unexplained by either variable.
 
 
 

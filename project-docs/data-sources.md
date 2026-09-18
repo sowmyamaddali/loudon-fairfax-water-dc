@@ -134,7 +134,18 @@
   county water-use population figures (see earlier entry)
 
 
-
+## USDM API - Drought Data 2017-2023 (Loudoun & Fairfax County, VA)
+- Source: National Drought Mitigation Center, USDM Data Services API
+- URL pattern: https://usdmdataservices.unl.edu/api/CountyStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=[FIPS]&startdate=[date]&enddate=[date]&statisticsType=1
+- Date retrieved: 2026-09-14
+- Coverage: Weekly percent-of-county-area in each drought category (D0-D4), 
+  2017-2023, Loudoun (51107) and Fairfax (51059)
+- Processing: Converted to pct_weeks_in_drought and area-weighted 
+  avg_drought_severity to match the format of the 2000-2016 CDC dataset
+- Known limitation: methodology differs from CDC source (percent-area vs. 
+  single categorical code per week) — see decisions.md. 2016 excluded 
+  from this pull (incomplete, single boundary week); CDC's full-year 2016 
+  value used instead.
 
 
 

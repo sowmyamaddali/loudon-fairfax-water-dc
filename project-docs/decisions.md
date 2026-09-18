@@ -58,4 +58,23 @@
   any modeling step
 
 
-
+## 2026-09-16 - Excluded incomplete 2016 boundary week from USDM pull
+- **Decision:** Dropped 2016 from the new USDM API extract (only 1 week 
+  returned, a boundary artifact) rather than merging it with the CDC 
+  2000-2016 data
+- **Reason:** CDC's 2016 figure is based on a full 52-week year; USDM's 2016 
+  figure was based on a single week and produced nonsensical values 
+  (100% and 0%) when compared directly
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
