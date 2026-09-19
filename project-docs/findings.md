@@ -130,7 +130,25 @@ variable not yet captured).
   unexplained by either variable.
 
 
+## 2026-09-19 - Monthly seasonal analysis, Loudoun (n=168 monthly obs)
 
+Tested whether population's or dc_demand's association with production 
+is stronger in summer months (proxy for cooling-driven demand).
+
+Population x summer interaction: not significant (p=0.83)
+Dc_demand x summer interaction: not significant (p=0.51)
+
+Summer itself is a strong, flat effect (+8-10 MGD, p<0.0001) but does 
+not scale with population or dc_demand growth over the study period.
+
+Interpretation: no evidence that Loudoun's seasonal water demand spike 
+is tied to data center expansion specifically. The summer effect looks 
+structural/constant rather than growing with data center buildout, 
+which argues against a detectable data-center-driven cooling signature 
+in this monthly data. Combined with the earlier annual finding 
+(population and dc_demand too collinear to separate), this analysis 
+does not find evidence distinguishing data centers from general growth 
+as a driver of Loudoun's water production increase.
 
 
 

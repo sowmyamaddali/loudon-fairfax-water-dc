@@ -120,10 +120,27 @@ loudoun_model_full <- lm(avg_production_mgd ~ population + pct_weeks_in_drought,
 summary(fairfax_model_full)
 summary(loudoun_model_full)
 
+# --------------------------------------------------------------------------------
+# Focus on Loudoun's monthly data
+loudoun_monthly_panel <- icprb_combined_extended %>%
+  filter(utility == "Loudoun Water") %>%
+  rename(production_mgd = production_mgd) %>%
+  left_join(population_annual_extended %>% filter(county == "Loudoun Water"), by = "year") %>%
+  left_join(dc_demand, by = "year") %>%
+  mutate(
+    summer = month %in% c("June", "July", "August", "September"),
+    month = factor(month, levels = month.name)
+  ) %>%
+  filter(!is.na(population))
 
+nrow(loudoun_monthly_panel)
 
+# Model 1 - Does population's effect differ by season?
+model_season_pop <- lm(production_mgd ~ population * summer,
+                       data = loudoun_monthly_panel)
+summary(model_season_pop)
 
-
-
-
-
+# Model 1 - Does data center demand association with production concentrate in summer or is it flat?
+model_seasonal_dc <- lm(production_mgd ~ population + dc_demand_mw * summer,
+                        data = loudoun_monthly_panel)
+summary(model_seasonal_dc)
